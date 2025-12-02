@@ -27,10 +27,10 @@ impl std::str::FromStr for DialRotation {
 }
 
 impl<const MAX: usize> Dial<MAX> {
-    const MODULUS: usize = MAX + 1;
+    const MOD: usize = MAX + 1;
 
     pub const fn new(points_at: usize) -> Self {
-        assert!(points_at <= MAX);
+        assert!(points_at < Self::MOD);
         Self { points_at }
     }
 
@@ -40,47 +40,30 @@ impl<const MAX: usize> Dial<MAX> {
 
     pub fn rotate(&mut self, rotation: DialRotation) {
         match rotation {
-            DialRotation::Left(n) => self.wrapping_sub(n),
-            DialRotation::Right(n) => self.wrapping_add(n),
+            DialRotation::Right(n) => {
+                self.points_at = (self.points_at + n) % Self::MOD;
+            }
+            DialRotation::Left(n) => {
+                self.points_at = (self.points_at + Self::MOD - (n % Self::MOD)) % Self::MOD;
+            }
         }
     }
 
     pub fn rotate_with_wraps_count(&mut self, rotation: DialRotation) -> usize {
+        let before = self.points_at;
+        self.rotate(rotation);
+
         match rotation {
-            DialRotation::Left(n) => self.wrapping_sub_with_wraps_count(n),
-            DialRotation::Right(n) => self.wrapping_add_with_wraps_count(n),
+            DialRotation::Right(n) => {
+                let full_wraps = n / Self::MOD;
+                let additional_wrap = ((before + (n % Self::MOD)) >= Self::MOD) as usize;
+                full_wraps + additional_wrap
+            }
+            DialRotation::Left(n) => {
+                let full_wraps = n / Self::MOD;
+                let additional_wrap = (before < (n % Self::MOD)) as usize;
+                full_wraps + additional_wrap
+            }
         }
-    }
-
-    fn wrapping_add(&mut self, n: usize) {
-        let effective_add = n % Self::MODULUS;
-        self.points_at = (self.points_at + effective_add) % Self::MODULUS;
-    }
-
-    fn wrapping_sub(&mut self, n: usize) {
-        let effective_sub = n % Self::MODULUS;
-        if effective_sub > 0 {
-            let effective_add = Self::MODULUS - effective_sub;
-            self.points_at = (self.points_at + effective_add) % Self::MODULUS;
-        }
-    }
-
-    fn wrapping_add_with_wraps_count(&mut self, n: usize) -> usize {
-        let full_wraps = n / Self::MODULUS;
-        let remainder = n % Self::MODULUS;
-
-        let extra_wrap = ((self.points_at + remainder) >= Self::MODULUS) as usize;
-
-        self.wrapping_add(n);
-        full_wraps + extra_wrap
-    }
-
-    fn wrapping_sub_with_wraps_count(&mut self, n: usize) -> usize {
-        let full_wraps = n / Self::MODULUS;
-        let remainder = n % Self::MODULUS;
-        let remainder_wrap = (self.points_at < remainder) as usize;
-
-        self.wrapping_sub(n);
-        full_wraps + remainder_wrap
     }
 }
