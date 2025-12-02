@@ -1,10 +1,33 @@
 #![allow(dead_code)]
 
-use aoc25::{Dial, DialRotation};
+use aoc25::d1::{Dial, DialRotation};
+use aoc25::d2::{IdRange, NoDigitSequenceRepeated, NoDigitSequenceRepeatedTwice};
 
 fn main() {
-    d1_part1();
-    d1_part2();
+    d2_part1();
+    d2_part2();
+}
+
+fn d2_part2() {
+    let input = std::fs::read_to_string("inputs/d2.txt").unwrap();
+    let mut invalid = vec![];
+    for str in input.split(",") {
+        let range = str.parse::<IdRange>().unwrap();
+        invalid.extend(range.collect_invalid::<NoDigitSequenceRepeated>());
+    }
+    let answer = invalid.iter().fold(0, |acc, n| acc + n);
+    println!("D2 Part 2 Answer: {}", answer);
+}
+
+fn d2_part1() {
+    let input = std::fs::read_to_string("inputs/d2.txt").unwrap();
+    let mut invalid = vec![];
+    for str in input.split(",") {
+        let range = str.parse::<IdRange>().unwrap();
+        invalid.extend(range.collect_invalid::<NoDigitSequenceRepeatedTwice>());
+    }
+    let answer = invalid.iter().fold(0, |acc, n| acc + n);
+    println!("D2 Part 1 Answer: {}", answer);
 }
 
 fn d1_part2() {
@@ -29,7 +52,7 @@ fn d1_part2() {
             DialRotation::Right(_) => n_zeros += n_wraps,
         };
     }
-    println!("D1 Part 2 Password: {}", n_zeros)
+    println!("D1 Part 2 Password: {}", n_zeros);
 }
 
 fn d1_part1() {
@@ -43,5 +66,5 @@ fn d1_part1() {
             n_zeros += 1
         }
     }
-    println!("D1 Part 1 Password: {}", n_zeros)
+    println!("D1 Part 1 Password: {}", n_zeros);
 }
