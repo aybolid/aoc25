@@ -2,10 +2,33 @@
 
 use aoc25::d1::{Dial, DialRotation};
 use aoc25::d2::{IdRange, NoDigitSequenceRepeated, NoDigitSequenceRepeatedTwice};
+use aoc25::d3::BatteriesBank;
 
 fn main() {
-    d2_part1();
-    d2_part2();
+    d3_part1();
+    d3_part2();
+}
+
+fn d3_part2() {
+    let input = std::fs::read_to_string("inputs/d3.txt").unwrap();
+    let mut total = 0;
+    for line in input.lines() {
+        let bank = line.parse::<BatteriesBank>().unwrap();
+        let max_joltage = bank.max_joltage(12);
+        total += max_joltage;
+    }
+    println!("D3 Part 2 Answer: {}", total)
+}
+
+fn d3_part1() {
+    let input = std::fs::read_to_string("inputs/d3.txt").unwrap();
+    let mut total = 0;
+    for line in input.lines() {
+        let bank = line.parse::<BatteriesBank>().unwrap();
+        let max_joltage = bank.max_joltage(2);
+        total += max_joltage;
+    }
+    println!("D3 Part 1 Answer: {}", total)
 }
 
 fn d2_part2() {
@@ -52,7 +75,7 @@ fn d1_part2() {
             DialRotation::Right(_) => n_zeros += n_wraps,
         };
     }
-    println!("D1 Part 2 Password: {}", n_zeros);
+    println!("D1 Part 2 Answer: {}", n_zeros);
 }
 
 fn d1_part1() {
@@ -66,5 +89,5 @@ fn d1_part1() {
             n_zeros += 1
         }
     }
-    println!("D1 Part 1 Password: {}", n_zeros);
+    println!("D1 Part 1 Answer: {}", n_zeros);
 }
