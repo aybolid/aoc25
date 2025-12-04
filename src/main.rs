@@ -3,10 +3,25 @@
 use aoc25::d1::{Dial, DialRotation};
 use aoc25::d2::{IdRange, NoDigitSequenceRepeated, NoDigitSequenceRepeatedTwice};
 use aoc25::d3::BatteriesBank;
+use aoc25::d4::PaperRollsMap;
 
 fn main() {
-    d3_part1();
-    d3_part2();
+    d4_part1();
+    d4_part2();
+}
+
+fn d4_part2() {
+    let input = std::fs::read_to_string("inputs/d4.txt").unwrap();
+    let map = input.parse::<PaperRollsMap>().unwrap();
+    let accessible_count = map.count_accessible_paper_rolls_with_removal();
+    println!("D4 Part 2 Answer: {}", accessible_count);
+}
+
+fn d4_part1() {
+    let input = std::fs::read_to_string("inputs/d4.txt").unwrap();
+    let map = input.parse::<PaperRollsMap>().unwrap();
+    let accessible_count = map.count_accessible_paper_rolls();
+    println!("D4 Part 1 Answer: {}", accessible_count);
 }
 
 fn d3_part2() {
