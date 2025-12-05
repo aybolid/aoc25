@@ -1,5 +1,5 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct IdRange(usize, usize);
+pub struct IdRange(pub usize, pub usize);
 
 pub trait IdCheck {
     fn check(id: usize) -> bool;

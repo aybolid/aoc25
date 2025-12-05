@@ -4,10 +4,23 @@ use aoc25::d1::{Dial, DialRotation};
 use aoc25::d2::{IdRange, NoDigitSequenceRepeated, NoDigitSequenceRepeatedTwice};
 use aoc25::d3::BatteriesBank;
 use aoc25::d4::PaperRollsMap;
+use aoc25::d5::Database;
 
 fn main() {
-    d4_part1();
-    d4_part2();
+    d5_part1();
+    d5_part2();
+}
+
+fn d5_part2() {
+    let input = std::fs::read_to_string("inputs/d5.txt").unwrap();
+    let db = input.parse::<Database>().unwrap();
+    println!("D5 Part 2 Answer: {}", db.count_fresh_ids());
+}
+
+fn d5_part1() {
+    let input = std::fs::read_to_string("inputs/d5.txt").unwrap();
+    let db = input.parse::<Database>().unwrap();
+    println!("D5 Part 1 Answer: {}", db.count_fresh_products());
 }
 
 fn d4_part2() {
