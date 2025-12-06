@@ -5,10 +5,16 @@ use aoc25::d2::{IdRange, NoDigitSequenceRepeated, NoDigitSequenceRepeatedTwice};
 use aoc25::d3::BatteriesBank;
 use aoc25::d4::PaperRollsMap;
 use aoc25::d5::Database;
-use aoc25::d6::BadCephalopodMathSolver;
+use aoc25::d6::{BadCephalopodMathSolver, cephalopod_grand_total};
 
 fn main() {
     d6_part1();
+    d6_part2();
+}
+
+fn d6_part2() {
+    let input = std::fs::read_to_string("inputs/d6.txt").unwrap();
+    println!("D6 Part 2 Answer: {}", cephalopod_grand_total(&input));
 }
 
 fn d6_part1() {

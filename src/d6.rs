@@ -87,3 +87,42 @@ impl std::str::FromStr for BadCephalopodMathSolver {
         })
     }
 }
+
+pub fn cephalopod_grand_total(s: &str) -> usize {
+    let mut total = 0;
+
+    let height = s.lines().count();
+    let width = s.lines().next().unwrap().len() + 1;
+    let bytes = s.as_bytes();
+
+    let mut numbers: Vec<usize> = vec![];
+
+    for x in (0..width).rev() {
+        let mut n_buffer = String::new();
+        for y in 0..height {
+            let idx = y * width + x;
+            let char = bytes[idx] as char;
+            if char.is_ascii_digit() {
+                n_buffer.push(char);
+            } else {
+                if !n_buffer.is_empty() {
+                    numbers.push(n_buffer.parse().unwrap());
+                    n_buffer.clear();
+                }
+                match char {
+                    '+' => {
+                        total += numbers.iter().fold(0, |acc, curr| acc + curr);
+                        numbers.clear();
+                    }
+                    '*' => {
+                        total += numbers.iter().fold(1, |acc, curr| acc * curr);
+                        numbers.clear();
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+
+    total
+}
