@@ -6,10 +6,21 @@ use aoc25::d3::BatteriesBank;
 use aoc25::d4::PaperRollsMap;
 use aoc25::d5::Database;
 use aoc25::d6::{BadCephalopodMathSolver, cephalopod_grand_total};
+use aoc25::d7::{count_beam_splits, count_timelines};
 
 fn main() {
-    d6_part1();
-    d6_part2();
+    d7_part1();
+    d7_part2();
+}
+
+fn d7_part2() {
+    let input = std::fs::read_to_string("inputs/d7.txt").unwrap();
+    println!("D7 Part 2 Answer: {}", count_timelines(&input));
+}
+
+fn d7_part1() {
+    let input = std::fs::read_to_string("inputs/d7.txt").unwrap();
+    println!("D7 Part 1 Answer: {}", count_beam_splits(&input));
 }
 
 fn d6_part2() {
